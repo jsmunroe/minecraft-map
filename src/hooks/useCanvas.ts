@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef } from "react";
 
-function useCanvas(onRender: (context: CanvasRenderingContext2D, elapsed: number) => void): RefObject<HTMLCanvasElement> {
+function useCanvas(onRender?: (context: CanvasRenderingContext2D, elapsed: number) => void): RefObject<HTMLCanvasElement> {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -22,16 +22,20 @@ function useCanvas(onRender: (context: CanvasRenderingContext2D, elapsed: number
         }
 
         let start = 0;
+        let handle: number = 0;
+
         const step = (timestamp: number) => {
             const elapsed = timestamp - start;
             start = timestamp;
 
-            onRender(context, elapsed);
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-            requestAnimationFrame(step);
+            onRender?.(context, elapsed);
+
+            handle = requestAnimationFrame(step);
         }
 
-        const handle = requestAnimationFrame(step);
+        handle = requestAnimationFrame(step);
 
         window.addEventListener('resize', onWindowResize);
         onWindowResize();
