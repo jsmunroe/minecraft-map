@@ -1,19 +1,14 @@
 import Canvas from './components/Canvas'
-import { useCallback, useReducer } from 'react';
-import { createLocation } from './models/Location'
-import { reducer, State } from './state/reducer';
+import { useCallback } from 'react';
 import './App.css'
-
-const initialState: State = {
-    locations: [],
-}
+import { useMap } from './hooks';
 
 function App() {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const map = useMap();
 
     const onRender = useCallback((context: CanvasRenderingContext2D) => {
                
-        for (const location of state.locations) {
+        for (const location of map.locations) {
             context.fillStyle = 'black';
 
             context.beginPath();
@@ -21,13 +16,10 @@ function App() {
             context.fill();
         }
 
-    }, [state])
+    }, [map.locations])
 
     const onPointerDown = (event: React.PointerEvent) => {
-        dispatch({
-            type: 'AddLocation',
-            payload: createLocation(event.clientX, 0, event.clientY),
-        })
+        map.addLocation(event.clientX, 0, event.clientY);
     }
 
     return (
