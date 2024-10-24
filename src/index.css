@@ -1,3 +1,7 @@
+:root {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -26,4 +30,46 @@ p, h1, h2, h3, h4, h5, h6 {
   
 #root, #__next {
     isolation: isolate;
+}
+
+form {
+    display: grid;
+    gap: 1rem;
+}
+
+form label {
+    display: block;
+}
+
+form label input {
+    margin-left: 10px;
+}
+
+form input.short {
+    width: 100px;
+}
+
+input {
+    padding: 0.1rem 0.5rem;
+}
+
+input.small {
+    width: 50px;
+}
+
+input.medium {
+    width: 100px;
+}
+
+input.right {
+    text-align:right;
+}
+
+
+form .right-buttons {
+    text-align: right;
+}
+
+form .validation-errors {
+    color: darkred;
 }

@@ -1,29 +1,33 @@
-import Canvas from './components/Canvas'
-import { useCallback } from 'react';
+import MapView from './components/MapView'
+import { useState } from 'react'
+import { Location } from './models/Location'
+import AddEditLocation from './components/forms/AddEditLocation'
+import Modal from './components/common/Modal'
 import './App.css'
-import { useMap } from './hooks';
 
 function App() {
-    const map = useMap();
+    const [addEditLocation, setAddEditLocation] = useState<Partial<Location> | null>(null)
 
-    const onRender = useCallback((context: CanvasRenderingContext2D) => {
-               
-        for (const location of map.locations) {
-            context.fillStyle = 'black';
+    const handleAdd = () => {
+        setAddEditLocation({});
+    }
 
-            context.beginPath();
-            context.ellipse(location.x, location.z, 10, 10, 0, 0, Math.PI * 2);
-            context.fill();
-        }
-
-    }, [map.locations])
-
-    const onPointerDown = (event: React.PointerEvent) => {
-        map.addLocation(event.clientX, 0, event.clientY);
+    const handleSubmit = () => {
+        setAddEditLocation(null);
     }
 
     return (
-        <Canvas onRender={onRender} onPointerDown={onPointerDown}/>
+        <div className="app">
+            <MapView />
+
+            <button className="mode-button" onClick={handleAdd} title ="Add">
+                <img src="src/assets/add.svg" alt="Add" />
+            </button>
+
+            {!!addEditLocation && <Modal>
+                <AddEditLocation location={addEditLocation} onSubmit={handleSubmit} />
+            </Modal>}
+        </div>
     )
 }
 
