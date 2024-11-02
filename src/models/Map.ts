@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
-import { Action, State } from "../state/reducer";
+import { Action } from "../state/reducer";
 import { createLocation, isLocation, Location } from "./Location";
+import { State } from "./State";
 
 export default class Map {
     constructor(
@@ -9,13 +10,13 @@ export default class Map {
     { }
 
     get locations() {
-        return this._state.locations;
+        return this._state.map.locations;
     }
 
     addLocation(location: Location): void;
     addLocation(x: number, y: number, z: number, name?: string): void;
     addLocation(...params: any[]): void {
-        if (params.length === 4 && typeof params[0] === 'number' && typeof params[1] === 'number' && typeof params[2] === 'number' && (typeof params[3] === 'string' || !params[3])) {
+        if (typeof params[0] === 'number' && typeof params[1] === 'number' && typeof params[2] === 'number' && (typeof params[3] === 'string' || !params[3])) {
             const x = params[0] as number;
             const y = params[1] as number;
             const z = params[2] as number;
@@ -30,7 +31,7 @@ export default class Map {
             return;
         }
 
-        if (params.length === 1 && isLocation(params[0])) {
+        if (isLocation(params[0])) {
             const location = params[0];
 
             this._dispatch({

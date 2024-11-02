@@ -1,7 +1,33 @@
 import { RefObject, useEffect, useRef } from "react";
+import { Size } from "../models/Size";
 
-function useCanvas(onRender?: (context: CanvasRenderingContext2D, elapsed: number) => void): RefObject<HTMLCanvasElement> {
+type UseCanvasOptions = {
+    onRender?: (context: CanvasRenderingContext2D, elapsed: number) => void,
+    onSize?: ({width, height}: Size) => void, 
+}
+
+function useCanvas({onRender, onSize}: UseCanvasOptions): RefObject<HTMLCanvasElement> {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+
+        if (!canvas) {
+            return;
+        }
+
+        const onWindowResize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            onSize?.(canvas);
+        }
+
+        window.addEventListener('resize', onWindowResize);
+        onWindowResize();
+
+        return () => window.removeEventListener('resize', onWindowResize);
+    }, [onSize])
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -14,11 +40,6 @@ function useCanvas(onRender?: (context: CanvasRenderingContext2D, elapsed: numbe
 
         if (!context) {
             return;
-        }
-
-        const onWindowResize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         }
 
         let start = 0;
@@ -37,13 +58,7 @@ function useCanvas(onRender?: (context: CanvasRenderingContext2D, elapsed: numbe
 
         handle = requestAnimationFrame(step);
 
-        window.addEventListener('resize', onWindowResize);
-        onWindowResize();
-
-        return () => {
-            cancelAnimationFrame(handle);
-            window.removeEventListener('resize', onWindowResize);
-        }
+        return () => cancelAnimationFrame(handle);
     }, [onRender]);
 
     return canvasRef;

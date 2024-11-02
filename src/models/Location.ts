@@ -10,7 +10,7 @@ export type Location = {
     name?: string
 }
 
-export function createLocation(x: number, y: number, z: number, name?: string) {
+export function createLocation(x: number, y: number, z: number, name?: string): Location {
     return {
         id: v4(),
         x,

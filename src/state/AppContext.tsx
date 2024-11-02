@@ -1,11 +1,10 @@
 import { createContext, Dispatch, useReducer } from "react";
-import { Action, reducer, State } from "./reducer";
+import { Action, reducer } from "./reducer";
+import { createState, State } from "../models/State";
 
 type ContextType = [State, Dispatch<Action>];
 
-const initialState: State = {
-    locations: [],
-}
+const initialState: State = createState();
 
 export const AppContext = createContext<ContextType>([initialState, () => {}]);
 
