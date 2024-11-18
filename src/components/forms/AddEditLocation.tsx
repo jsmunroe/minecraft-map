@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { useMap } from "../../hooks";
+import { useKeys, useMap } from "../../hooks";
 import { Location, validateLocation } from "../../models/Location"
 import { useState } from "react";
 import { ValidationError } from "../../models/ValidationError";
@@ -14,6 +14,12 @@ type AddEditLocationProps = {
 function AddEditLocation({location, onSubmit}: AddEditLocationProps) {
     const map = useMap();
     const [validationError, setValidationError] = useState<ValidationError | null>(null);
+
+    useKeys(key => {
+        if (key === 'Escape') {
+            onSubmit?.();
+        }
+    });
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -41,6 +47,10 @@ function AddEditLocation({location, onSubmit}: AddEditLocationProps) {
         onSubmit?.();
     }
 
+    const handleCancel = () => {
+        onSubmit?.();
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <label>
@@ -65,6 +75,7 @@ function AddEditLocation({location, onSubmit}: AddEditLocationProps) {
 
             <div className="right-buttons">
                 <button type="submit">Save</button>
+                <button type="button" onClick={handleCancel}>Cancel</button>
             </div>
         </form>
 

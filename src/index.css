@@ -67,7 +67,10 @@ input.right {
 
 
 form .right-buttons {
-    text-align: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 10px;
 }
 
 form .validation-errors {
