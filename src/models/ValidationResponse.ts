@@ -20,3 +20,19 @@ export function asSuccess<TPayload>(payload: TPayload): ValidationResponse<TPayl
         payload,
     }
 }
+
+export function asChildError(parentFieldName: string, response: ValidationResponse<never>): ValidationResponse<never> {
+    if (response.isSuccessful) {
+        return response;
+    }
+
+    const error = {
+        ...response.error,
+        fieldName: `${parentFieldName}.${response.error.fieldName}`
+    }
+
+    return {
+        isSuccessful: false,
+        error,
+    }
+}

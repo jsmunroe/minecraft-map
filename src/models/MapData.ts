@@ -1,9 +1,11 @@
 import { Location, isLocation } from "./Location"
+import { Path } from "./Path";
 import { Size, isSize } from "./Size";
 import { Box, isBox } from "./Box";
 
 export type MapData = {
     locations: Location[],
+    paths: Path[],
 
     canvas: Size,
     viewport: Box,
@@ -12,6 +14,7 @@ export type MapData = {
 export function createMapData(canvas: Size = { width: 1600, height: 900 }, viewport?: Box): MapData {
     return {
         locations: [],
+        paths: [],
         
         canvas,
         viewport: viewport ?? { left: 0, top: 0, ...canvas }

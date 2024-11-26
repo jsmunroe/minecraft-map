@@ -6,7 +6,8 @@ type ValidationErrorProps = {
 }
 
 function ValidationErrors({fieldName, error}: ValidationErrorProps) {
-    if (error?.fieldName !== fieldName) {
+    const rexFieldNameStartsWith = new RegExp(`^${fieldName}\b`);
+    if (!error || !rexFieldNameStartsWith.test(error.fieldName)) {
         return null;
     }
 

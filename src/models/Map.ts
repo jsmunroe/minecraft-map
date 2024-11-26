@@ -2,6 +2,8 @@ import { Dispatch } from "react";
 import { Action } from "../state/reducer";
 import { createLocation, isLocation, Location } from "./Location";
 import { State } from "./State";
+import { EndPoint, Path } from "./Path";
+import { Point3 } from "./Point";
 
 export default class Map {
     constructor(
@@ -11,6 +13,24 @@ export default class Map {
 
     get locations() {
         return this._state.map.locations;
+    }
+
+    get paths() {
+        return this._state.map.paths;
+    }
+
+    getPoint(point: EndPoint): Point3 {
+        if ('id' in point) {
+            const location = this.locations.find(l => l.id === point.id);
+
+            if (!location) {
+                throw new Error(`Location with ID ${point.id} not found in map.`);
+            }
+
+            return { x: location.x, y: location.y, z: location.z}
+        }
+
+        return point;
     }
 
     addLocation(location: Location): void;
@@ -41,5 +61,12 @@ export default class Map {
             
             return;
         }
+    }
+
+    addPath(path: Path): void {
+        this._dispatch({
+            type: 'AddPath',
+            payload: path,
+        });
     }
 }

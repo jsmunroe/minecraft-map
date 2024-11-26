@@ -21,6 +21,10 @@ export function createLocation(x: number, y: number, z: number, name?: string): 
 }
 
 export function isLocation(location: any): location is Location {
+    if (!location) {
+        return false;
+    }
+
     if ('id' in location === false || typeof location.id !== 'string' || location.id === '') {
         return false;
     }

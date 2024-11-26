@@ -23,13 +23,26 @@ function MapView() {
     const handleRender = useCallback((context: CanvasRenderingContext2D) => {
         const { map, viewport } = renderData.current;
 
+        for (const path of map.paths) {
+            context.strokeStyle = '#FFD800'
+            context.lineWidth = 2;
+
+            const start = viewport.toScreen(map.getPoint(path.start));
+            const end = viewport.toScreen(map.getPoint(path.end));
+
+            context.beginPath();
+            context.moveTo(start.x, start.y);
+            context.lineTo(end.x, end.y);
+            context.stroke();
+        }
+
         for (const location of map.locations) {
             context.fillStyle = 'black';
 
             const point = viewport.toScreen(location);
 
             context.beginPath();
-            context.ellipse(point.x, point.y, 4, 4, 0, 0, Math.PI * 2);
+            context.ellipse(point.x, point.y, 3, 3, 0, 0, Math.PI * 2);
             context.fill();
 
             if (location.name) {

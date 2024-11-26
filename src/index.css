@@ -41,27 +41,33 @@ form label {
     display: block;
 }
 
-form label input {
+form label input,
+form label select {
     margin-left: 10px;
 }
 
-form input.short {
+form input.short,
+form select.short {
     width: 100px;
 }
 
-input {
+input, 
+select {
     padding: 0.1rem 0.5rem;
 }
 
-input.small {
+input.small,
+select.small {
     width: 50px;
 }
 
-input.medium {
+input.medium, 
+select.medium {
     width: 100px;
 }
 
-input.right {
+input.right,
+select.right {
     text-align:right;
 }
 
@@ -75,4 +81,8 @@ form .right-buttons {
 
 form .validation-errors {
     color: darkred;
+}
+
+fieldset {
+    border: none;
 }

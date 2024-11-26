@@ -12,7 +12,11 @@ export function createState(): State {
         { id: '89c9eac3-c85d-4246-af11-c3bab6e9dbbe', x: 100, y: 0, z: 100, name: 'Bottom Right' },
     ]
 
-    const map = { ...createMapData(), locations } 
+    const paths = [
+        { id: 'aabcc6da-7259-4705-bc93-ee5eb8e78085', start: { id: 'cd494d43-ecb5-4f25-a1cf-a2211bf4794f' }, end: { id: '89c9eac3-c85d-4246-af11-c3bab6e9dbbe' } },
+    ]
+
+    const map = { ...createMapData(), locations, paths } 
     
 
     return {
